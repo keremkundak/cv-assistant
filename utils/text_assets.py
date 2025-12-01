@@ -37,7 +37,8 @@ def get_texts():
             "ex_btn_3": "🛠️ Teknik Yeteneklerin Neler?",
             "ai_disclaimer": "⚠️ Yapay zeka hata yapabilir. Lütfen önemli bilgileri teyit ediniz.",
             "btn_linkedin": "www.linkedin.com/in/kerem-kundak",
-            "btn_github": "www.github.com/keremkundak"
+            "btn_github": "www.github.com/keremkundak",
+            "welcome_chat": "Merhaba {name}! 👋 Ben Kerem'in Dijital İkiziyim. Kerem'in profesyonel geçmişi, yetenekleri ve projeleri hakkında her şeyi bana sorabilirsin. Nasıl yardımcı olabilirim?"
         },
         "en": {
             "welcome_title": "🚀 Visitor Login",
@@ -76,6 +77,7 @@ def get_texts():
             "ex_btn_3": "🛠️ What are your technical skills?",
             "ai_disclaimer": "⚠️ AI can make mistakes. Please verify important information.",
             "btn_linkedin": "www.linkedin.com/in/kerem-kundak",
-            "btn_github": "www.github.com/keremkundak"
+            "btn_github": "www.github.com/keremkundak",
+            "welcome_chat": "Hello {name}! 👋 I am Kerem's Digital Twin. You can ask me anything about Kerem's professional background, skills, and projects. How can I help you?"
         }
     }

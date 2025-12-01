@@ -1,142 +1,179 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-/* --- 1. ANA SAYFA DÜZENİ --- */
-.stApp {
-    background-color: #000000;
-    background-image: radial-gradient(circle at 50% 0%, #1d1d1f 0%, #000000 70%);
-    background-attachment: fixed;
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+:root {
+    --bg-color: #000000;
+    --bg-gradient-start: #1d1d1f;
+    --bg-gradient-end: #000000;
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --accent-color: #0071e3;
+    --glass-bg: rgba(29, 29, 31, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Global Reset & Typography */
+.stApp {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 70%);
+    background-attachment: fixed;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary) !important;
     font-weight: 600;
     letter-spacing: -0.02em;
-    color: #f5f5f7 !important;
 }
 
-
-p, label, .stMarkdown, .stCaption {
-    color: #86868b !important;
-    font-weight: 400;
+p,
+label,
+.stMarkdown,
+.stCaption {
+    color: var(--text-secondary) !important;
 }
 
-h1 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
-h3 { font-size: 1.2rem !important; margin-bottom: 0.5rem !important; }
-p { margin-bottom: 0.5rem !important; }
-
-/* Fix for button text color */
-.stButton button, .stButton button * {
-    color: white !important;
+/* Layout Container */
+.block-container {
+    max-width: 1200px !important;
+    padding-top: 3rem !important;
+    padding-bottom: 8rem !important;
 }
 
-.profile-pic {
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    display: block;
-    margin: 0 auto;
+/* Login Screen Specifics */
+.block-container:has(#login-form-marker) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 3rem !important;
 }
 
-/* --- KART TASARIMI --- */
-/* Target the container using the marker */
-div[data-testid="stVerticalBlock"]:has(span#login-form-marker) {
-    background: rgba(29, 29, 31, 0.7);
+/* Components */
+
+/* Cards (Login, Profile) */
+div[data-testid="stVerticalBlock"]:has(#login-form-marker) {
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 18px;
-    padding: 25px !important;          /* 40px'den 25px'e düşürdük */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    text-align: center;
-    align-items: center;
-    gap: 0.5rem !important;            /* Elemanlar arası boşluğu azalttık */
-    height: 100% !important;        /* Kartı sütun boyunca uzat */
-    display: flex !important;       /* İçeriği esnek yap */
-    flex-direction: column;         /* Alt alta diz */
-    justify-content: center;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    gap: 1rem !important;
 }
 
-/* Inputlar */
+/* Chat Messages */
+.stChatMessage {
+    background-color: transparent;
+}
+
+.stChatMessage[data-testid="stChatMessage"] {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Inputs */
 .stTextInput input {
     background-color: rgba(255, 255, 255, 0.05) !important;
-    color: #f5f5f7 !important;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 12px;                 /* Padding azaltıldı */
-    font-size: 15px;
-    min-height: auto !important;       /* Zorunlu yüksekliği kaldır */
+    color: var(--text-primary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius-sm);
 }
 
 .stTextInput input:focus {
-    border-color: #0071e3;
-    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.3) !important;
 }
 
-/* Butonlar (Dark Space Blue) */
+/* Buttons */
 .stButton button {
-    background-color: #042648 !important; 
-    background-image: none !important;
-    color: white !important;
-    border-radius: 980px;
-    padding: 10px 24px;
-    font-size: 17px;
-    font-weight: 600;
-    border: none;
-    transition: transform 0.1s ease, background-color 0.2s ease;
+    background-color: #1c1c1e !important;
+    color: #ffffff !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 999px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.stButton button p {
+    color: #ffffff !important;
 }
 
 .stButton button:hover {
-    background-color: #003366 !important;
+    background-color: #2c2c2e !important;
     transform: scale(1.02);
+    border-color: var(--text-secondary) !important;
 }
 
-/* Chat Baloncukları */
-.stChatMessage {
-    background-color: rgba(29, 29, 31, 0.7);
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+.stButton button:active {
+    transform: scale(0.98);
 }
 
+/* Primary Button */
+.stButton button[kind="primary"] {
+    background-color: var(--accent-color) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.stButton button[kind="primary"]:hover {
+    background-color: #0077ED !important;
+}
+
+/* Sidebar */
 section[data-testid="stSidebar"] {
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid var(--glass-border);
 }
 
-/* --- DÜZEN VE SCROLL AYARLARI --- */
-/* Sohbet uzadığında input alanının altında kalmaması için padding-bottom eklendi */
-.block-container {
-    padding-top: 1rem !important;      /* Üst boşluk minimuma indi */
-    padding-bottom: 1rem !important;   
-    max-width: 1000px !important;      /* Genişliği biraz daralttık, daha toplu durur */
-    height: 95vh;                      /* Ekran yüksekliğine sabitlemeye devam */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;           /* Tam ortala */
+/* Chat Input Styling */
+.stChatInput textarea {
+    background-color: rgba(29, 29, 31, 0.9) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-md);
 }
 
-/* Dil Butonları Düzenlemesi */
-div[data-testid="column"] .stButton button {
-    min-width: 0px !important;
-    padding: 0.3rem 0.8rem !important;
-    margin-bottom: 0px !important;
-    height: auto !important;
-    font-size: 0.9rem !important;
+/* Profile Picture */
+.profile-pic {
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    display: block;
+    margin: 0 auto;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .block-container {
-        padding: 1rem !important;
-        padding-bottom: 150px !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 
-    div[data-testid="stVerticalBlock"]:has(span#login-form-marker) {
-        padding: 20px !important;
-        margin-top: 10px !important;
+    /* Allow login screen to scroll on mobile */
+    .block-container:has(#login-form-marker) {
+        display: block !important;
+        min-height: auto !important;
+        height: auto !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
     }
 
-    h1 {
-        font-size: 1.8rem !important;
+    div[data-testid="stVerticalBlock"]:has(#login-form-marker) {
+        padding: 1.5rem !important;
+        margin-bottom: 2rem !important;
     }
 }
