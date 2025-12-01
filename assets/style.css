@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* --- 1. ANA SAYFA DÜZENİ --- */
+.stApp {
+    background-color: #000000;
+    background-image: radial-gradient(circle at 50% 0%, #1d1d1f 0%, #000000 70%);
+    background-attachment: fixed;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #f5f5f7 !important;
+}
+
+
+p, label, .stMarkdown, .stCaption {
+    color: #86868b !important;
+    font-weight: 400;
+}
+
+h1 { font-size: 2rem !important; margin-bottom: 0.5rem !important; }
+h3 { font-size: 1.2rem !important; margin-bottom: 0.5rem !important; }
+p { margin-bottom: 0.5rem !important; }
+
+/* Fix for button text color */
+.stButton button, .stButton button * {
+    color: white !important;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    display: block;
+    margin: 0 auto;
+}
+
+/* --- KART TASARIMI --- */
+/* Target the container using the marker */
+div[data-testid="stVerticalBlock"]:has(span#login-form-marker) {
+    background: rgba(29, 29, 31, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 25px !important;          /* 40px'den 25px'e düşürdük */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    align-items: center;
+    gap: 0.5rem !important;            /* Elemanlar arası boşluğu azalttık */
+    height: 100% !important;        /* Kartı sütun boyunca uzat */
+    display: flex !important;       /* İçeriği esnek yap */
+    flex-direction: column;         /* Alt alta diz */
+    justify-content: center;
+}
+
+/* Inputlar */
+.stTextInput input {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #f5f5f7 !important;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;                 /* Padding azaltıldı */
+    font-size: 15px;
+    min-height: auto !important;       /* Zorunlu yüksekliği kaldır */
+}
+
+.stTextInput input:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+}
+
+/* Butonlar (Dark Space Blue) */
+.stButton button {
+    background-color: #042648 !important; 
+    background-image: none !important;
+    color: white !important;
+    border-radius: 980px;
+    padding: 10px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.stButton button:hover {
+    background-color: #003366 !important;
+    transform: scale(1.02);
+}
+
+/* Chat Baloncukları */
+.stChatMessage {
+    background-color: rgba(29, 29, 31, 0.7);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+section[data-testid="stSidebar"] {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- DÜZEN VE SCROLL AYARLARI --- */
+/* Sohbet uzadığında input alanının altında kalmaması için padding-bottom eklendi */
+.block-container {
+    padding-top: 1rem !important;      /* Üst boşluk minimuma indi */
+    padding-bottom: 1rem !important;   
+    max-width: 1000px !important;      /* Genişliği biraz daralttık, daha toplu durur */
+    height: 95vh;                      /* Ekran yüksekliğine sabitlemeye devam */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;           /* Tam ortala */
+}
+
+/* Dil Butonları Düzenlemesi */
+div[data-testid="column"] .stButton button {
+    min-width: 0px !important;
+    padding: 0.3rem 0.8rem !important;
+    margin-bottom: 0px !important;
+    height: auto !important;
+    font-size: 0.9rem !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .block-container {
+        padding: 1rem !important;
+        padding-bottom: 150px !important;
+    }
+
+    div[data-testid="stVerticalBlock"]:has(span#login-form-marker) {
+        padding: 20px !important;
+        margin-top: 10px !important;
+    }
+
+    h1 {
+        font-size: 1.8rem !important;
+    }
+}

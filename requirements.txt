@@ -1,0 +1,7 @@
+streamlit
+streamlit-autorefresh
+langchain-google-genai
+langchain-community
+langchain-core
+pypdf
+cryptography
