@@ -36,6 +36,13 @@ TARGET_EMAIL = "target_email@example.com"
 CV_ENCRYPTION_KEY = "your_encryption_key"
 ```
 
+## Admin Panel
+
+The application includes a hidden Admin Panel to view and download chat logs.
+
+- **Access:** Append `?view_logs=true` to the application URL (e.g., `http://localhost:8501/?view_logs=true`).
+- **Password:** Uses the `EMAIL_PASSWORD` defined in your secrets.
+
 ## Contact
 
 - **LinkedIn:** [www.linkedin.com/in/kerem-kundak](https://www.linkedin.com/in/kerem-kundak)

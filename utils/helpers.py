@@ -8,9 +8,12 @@ from cryptography.fernet import Fernet
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.messages import HumanMessage
 import streamlit as st
+import json
+import uuid
+import pytz
 
 def load_css(file_name):
-    """CSS dosyasını okur ve sayfaya inject eder"""
+    """Reads CSS file and injects it into the page"""
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
@@ -36,25 +39,63 @@ def send_email(subject, body):
         return True
     except: return False
 
-def create_transcript(reason, user_info, chat_history, language):
-    if not user_info: return None
-    transcript = f"Reason: {reason}\nLanguage: {language}\n"
-    transcript += f"Visitor: {user_info['name']}\nEmail: {user_info['email']}\n\n"
+def create_transcript(trigger, user_info, chat_history, language):
+    """Creates a formatted transcript of the chat"""
+    timestamp = datetime.now(pytz.timezone('Europe/Istanbul')).strftime("%Y-%m-%d %H:%M:%S")
+    transcript = f"Chat Transcript - {trigger}\n"
+    transcript += f"Date: {timestamp}\n"
+    transcript += f"User: {user_info['name']} ({user_info['company']})\n"
+    transcript += f"Email: {user_info['email']}\n"
+    transcript += "-" * 30 + "\n\n"
+    
     for msg in chat_history:
-        role = "Visitor" if isinstance(msg, HumanMessage) else "Kerem AI"
+        role = "User" if isinstance(msg, HumanMessage) else "AI"
         transcript += f"{role}: {msg.content}\n"
     return transcript
 
+def save_chat_log(session_id, user_info, chat_history, language):
+    """Saves chat history incrementally to a JSON file"""
+    try:
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
+            
+        tz = pytz.timezone('Europe/Istanbul')
+        current_time = datetime.now(tz).isoformat()
+            
+        log_data = {
+            "session_id": str(session_id),
+            "timestamp": current_time,
+            "user_info": user_info,
+            "language": language,
+            "messages": []
+        }
+        
+        for msg in chat_history:
+            role = "user" if isinstance(msg, HumanMessage) else "assistant"
+            log_data["messages"].append({
+                "role": role,
+                "content": msg.content,
+                "timestamp": current_time # Using current save time for simplicity, or could track msg time
+            })
+            
+        filename = f"logs/{session_id}.json"
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=4)
+        return True
+    except Exception as e:
+        print(f"Log Save Error: {e}")
+        return False
+
 @st.cache_data
 def load_cv_text():
-    # Şifreli dosya assets klasöründe
+    # Encrypted file is in assets folder
     encrypted_filename = "assets/cv.locked"
     
     if not os.path.exists(encrypted_filename):
-        st.error(f"⚠️ Hata: {encrypted_filename} bulunamadı!")
+        st.error(f"⚠️ Error: {encrypted_filename} not found!")
         return None
     if "CV_ENCRYPTION_KEY" not in os.environ:
-        st.error("⚠️ Hata: Encryption Key eksik!")
+        st.error("⚠️ Error: Encryption Key missing!")
         return None
 
     try:
@@ -76,5 +117,5 @@ def load_cv_text():
         os.remove(tmp_pdf_path)
         return full_text
     except Exception as e:
-        st.error(f"CV Yükleme Hatası: {e}")
+        st.error(f"CV Loading Error: {e}")
         return None
