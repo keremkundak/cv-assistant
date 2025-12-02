@@ -72,10 +72,6 @@ TEXTS = get_texts()
 if "language" not in st.session_state: st.session_state.language = "en"
 def t(key): return TEXTS[st.session_state.language][key]
 
-# Timer (Inactivity check)
-TIMEOUT_SECONDS = 30
-st_autorefresh(interval=10000, key="inactivity_checker")
-
 # SESSION MANAGEMENT
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
 if "user_info" not in st.session_state: st.session_state.user_info = None
@@ -83,6 +79,16 @@ if "cv_text" not in st.session_state: st.session_state.cv_text = None
 if "last_interaction" not in st.session_state: st.session_state.last_interaction = time.time()
 if "kvkk_approved" not in st.session_state: st.session_state.kvkk_approved = False
 if "session_id" not in st.session_state: st.session_state.session_id = str(uuid.uuid4())
+
+# Check if we are waiting for a response (to pause autorefresh)
+is_generating = False
+if len(st.session_state.chat_history) > 0 and isinstance(st.session_state.chat_history[-1], HumanMessage):
+    is_generating = True
+
+# Timer (Inactivity check)
+TIMEOUT_SECONDS = 30
+if not is_generating:
+    st_autorefresh(interval=10000, key="inactivity_checker")
 
 # Load CV Text
 if st.session_state.cv_text is None: st.session_state.cv_text = load_cv_text()
@@ -245,7 +251,7 @@ if st.session_state.user_info is None:
 
 # CHAT SCREEN
 if st.session_state.user_info:
-    st.session_state.last_interaction = time.time()
+    # st.session_state.last_interaction = time.time() # REMOVED: This was resetting the timer on every autorefresh
     
     # Auto-Greeting (First Message)
     if len(st.session_state.chat_history) == 0:
@@ -335,15 +341,17 @@ if st.session_state.user_info:
     if chat_input_val: user_query = chat_input_val
 
     # Response Generation
-    if user_query:
-        st.session_state.chat_history.append(HumanMessage(content=user_query))
-        save_chat_log(st.session_state.session_id, st.session_state.user_info, st.session_state.chat_history, st.session_state.language)
-        
-        # Manually display if triggered by button
-        if chat_input_val is None:
-             with st.chat_message("user"): st.write(user_query)
-        else:
-             with st.chat_message("user"): st.write(user_query)
+    if user_query or is_generating:
+        if user_query:
+            st.session_state.chat_history.append(HumanMessage(content=user_query))
+            st.session_state.last_interaction = time.time() # Update interaction time only on user input
+            save_chat_log(st.session_state.session_id, st.session_state.user_info, st.session_state.chat_history, st.session_state.language)
+            
+            # Manually display if triggered by button
+            if chat_input_val is None:
+                 with st.chat_message("user"): st.write(user_query)
+            else:
+                 with st.chat_message("user"): st.write(user_query)
         
         user_name = st.session_state.user_info['name']
         company_name = st.session_state.user_info['company']
