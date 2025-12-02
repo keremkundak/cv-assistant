@@ -1,4 +1,4 @@
-# CV Assistant - Digital Twin
+# CV Assistant - Digital Twin (v1.1)
 
 This project is a Streamlit-based application that serves as a "Digital Twin" for Kerem Kundak. It allows recruiters and colleagues to interact with an AI representation of Kerem to learn about his professional background, skills, and projects.
 
@@ -10,6 +10,7 @@ This project is a Streamlit-based application that serves as a "Digital Twin" fo
 - **Interactive UI:** Features a modern, dark-themed interface with glassmorphism effects.
 - **Email Notifications:** Sends transcripts of conversations to Kerem for review.
 - **Privacy Focused:** Includes a KVKK (Personal Data Protection) consent flow for visitors.
+- **Admin Panel:** Hidden interface to view and download chat logs.
 
 ## Installation
 
