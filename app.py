@@ -113,7 +113,7 @@ def open_kvkk_modal():
 if st.session_state.user_info is None:
     
     # LANGUAGE SELECTION
-    col_lang1, col_lang2, _ = st.columns([0.12, 0.12, 0.76], gap="small")
+    col_lang1, col_lang2, _ = st.columns([1, 1, 5], gap="small")
     with col_lang1:
         if st.button("🇬🇧 EN"): st.session_state.language = "en"; st.rerun()
     with col_lang2:

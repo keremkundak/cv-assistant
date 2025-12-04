@@ -36,10 +36,8 @@ def send_email(subject, body):
         server.login(sender_email, sender_password)
         server.sendmail(sender_email, receiver_email, msg.as_string())
         server.quit()
-        print(f"Email sent successfully to {receiver_email}")
         return True
     except Exception as e:
-        print(f"Failed to send email: {e}")
         return False
 
 def create_transcript(trigger, user_info, chat_history, language):
