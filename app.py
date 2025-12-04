@@ -3,7 +3,7 @@ import os
 import time
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-from streamlit_autorefresh import st_autorefresh
+
 
 # Imports
 import uuid
@@ -37,11 +37,15 @@ if "view_logs" in st.query_params:
             log_files = [f for f in os.listdir("logs") if f.endswith(".json")]
             st.write(f"Found {len(log_files)} log files.")
             
-            # Download All
-            if st.button("📦 Download All Logs (ZIP)"):
-                shutil.make_archive("all_logs", 'zip', "logs")
-                with open("all_logs.zip", "rb") as f:
-                    st.download_button("⬇️ Download ZIP", f, file_name="all_logs.zip")
+            # Actions
+            col_act1, col_act2 = st.columns([1, 2])
+            with col_act1:
+                if st.button("🔄 Refresh"): st.rerun()
+            with col_act2:
+                if st.button("📦 Download All Logs (ZIP)"):
+                    shutil.make_archive("all_logs", 'zip', "logs")
+                    with open("all_logs.zip", "rb") as f:
+                        st.download_button("⬇️ Download ZIP", f, file_name="all_logs.zip")
             
             st.divider()
             
@@ -76,7 +80,7 @@ def t(key): return TEXTS[st.session_state.language][key]
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
 if "user_info" not in st.session_state: st.session_state.user_info = None
 if "cv_text" not in st.session_state: st.session_state.cv_text = None
-if "last_interaction" not in st.session_state: st.session_state.last_interaction = time.time()
+
 if "kvkk_approved" not in st.session_state: st.session_state.kvkk_approved = False
 if "session_id" not in st.session_state: st.session_state.session_id = str(uuid.uuid4())
 
@@ -85,21 +89,13 @@ is_generating = False
 if len(st.session_state.chat_history) > 0 and isinstance(st.session_state.chat_history[-1], HumanMessage):
     is_generating = True
 
-# Timer (Inactivity check)
-TIMEOUT_SECONDS = 30
-if not is_generating:
-    st_autorefresh(interval=10000, key="inactivity_checker")
+
 
 # Load CV Text
 if st.session_state.cv_text is None: st.session_state.cv_text = load_cv_text()
 
 # TIMEOUT
-if st.session_state.user_info and len(st.session_state.chat_history) > 0:
-    if time.time() - st.session_state.last_interaction > TIMEOUT_SECONDS:
-        # Update last interaction immediately to avoid drift
-        st.session_state.last_interaction = time.time()
-        transcript = create_transcript("Timeout", st.session_state.user_info, st.session_state.chat_history, st.session_state.language)
-        send_email(f"{t('mail_subject_timeout')} - {st.session_state.user_info['name']}", transcript)
+
 
 # KVKK DIALOG
 @st.dialog("📜 Policy")
@@ -220,7 +216,7 @@ if st.session_state.user_info is None:
                         "email": email.strip()
                     }
                     st.session_state.user_info = user_info
-                    st.session_state.last_interaction = time.time()
+
                     save_chat_log(st.session_state.session_id, user_info, st.session_state.chat_history, st.session_state.language)
                     try: send_email(f"🔔 Login ({st.session_state.language}): {user_info['name']}", str(user_info))
                     except: pass
@@ -239,7 +235,7 @@ if st.session_state.user_info is None:
                     }
                     st.session_state.user_info = user_info
                     st.session_state.kvkk_approved = True
-                    st.session_state.last_interaction = time.time()
+
                     save_chat_log(st.session_state.session_id, user_info, st.session_state.chat_history, st.session_state.language)
                     try: send_email(f"🔔 Login ({st.session_state.language}): {user_info['name']}", str(user_info))
                     except: pass
@@ -344,7 +340,7 @@ if st.session_state.user_info:
     if user_query or is_generating:
         if user_query:
             st.session_state.chat_history.append(HumanMessage(content=user_query))
-            st.session_state.last_interaction = time.time() # Update interaction time only on user input
+
             save_chat_log(st.session_state.session_id, st.session_state.user_info, st.session_state.chat_history, st.session_state.language)
             
             # Manually display if triggered by button
