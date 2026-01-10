@@ -12,6 +12,20 @@ This project is a Streamlit-based application that serves as a "Digital Twin" fo
 - **Privacy Focused:** Includes a KVKK (Personal Data Protection) consent flow for visitors.
 - **Admin Panel:** Hidden interface to view and download chat logs.
 
+## Screenshots
+
+<p align="center">
+  <img src="assets/screenshots/login.png" width="800" alt="Login Screen">
+  <br>
+  <em>Login Screen</em>
+</p>
+
+<p align="center">
+  <img src="assets/screenshots/chat.png" width="800" alt="Chat Interface">
+  <br>
+  <em>AI Digital Twin Chat Interface</em>
+</p>
+
 ## Installation
 
 1.  Clone the repository:
@@ -66,3 +80,7 @@ The application will open in your default web browser.
 - `assets/`: Contains CSS styles and images.
 - `utils/`: Helper functions for text assets, email sending, and data loading.
 - `requirements.txt`: Python dependencies.
+
+## Acknowledgements
+
+- **Keep Alive Workflow:** Inspired by and adapted from the [Streamlit-App-KeepAlive](https://github.com/ToroData/Streamlit-App-KeepAlive) repository by [ToroData](https://github.com/ToroData). This helps keep the Streamlit Cloud app awake by periodically pinging it.
