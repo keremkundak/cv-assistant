@@ -1,0 +1,16 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  ping-apps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send request to kerem-digital-twin.streamlit.app
+        run: curl -s -o /dev/null -w "%{http_code}\n" https://kerem-digital-twin.streamlit.app/
+
