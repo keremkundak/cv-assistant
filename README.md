@@ -73,14 +73,3 @@ streamlit run app.py
 ```
 
 The application will open in your default web browser.
-
-## Project Structure
-
-- `app.py`: Main application logic and UI layout.
-- `assets/`: Contains CSS styles and images.
-- `utils/`: Helper functions for text assets, email sending, and data loading.
-- `requirements.txt`: Python dependencies.
-
-## Acknowledgements
-
-- **Keep Alive Workflow:** Inspired by and adapted from the [Streamlit-App-KeepAlive](https://github.com/ToroData/Streamlit-App-KeepAlive) repository by [ToroData](https://github.com/ToroData). This helps keep the Streamlit Cloud app awake by periodically pinging it.

@@ -1,16 +1,25 @@
-name: Keep Alive
+name: Keep Streamlit Alive
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
-
+    - cron: '0 */4 * * *'
   workflow_dispatch:
 
 jobs:
-  ping-apps:
+  run-selenium-script:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send request to kerem-digital-twin.streamlit.app
-        run: curl -s -o /dev/null -w "%{http_code}\n" https://kerem-digital-twin.streamlit.app/
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install selenium webdriver-manager
+
+      - name: Run Keep Alive Script
+        run: python keep_alive.py
