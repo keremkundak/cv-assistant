@@ -14,6 +14,7 @@ def setup_driver():
     
     # Initialize the driver
     driver = webdriver.Chrome(options=chrome_options)
+    driver.set_page_load_timeout(30)
     return driver
 
 def visit_app():
