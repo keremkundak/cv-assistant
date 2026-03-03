@@ -3,6 +3,7 @@ secrets.toml
 .env
 __pycache__/
 *.pyc
-venv/
-env/
+.venv/
 logs/
+*.pdf
+scripts/
